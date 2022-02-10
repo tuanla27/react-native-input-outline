@@ -279,6 +279,11 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
       return null;
     }, [trailingIcon]);
 
+    const renderPlaceholderIcon = useCallback(() => {
+      if (placeholderIcon) return placeholderIcon({});
+      return null;
+    }, [placeholderIcon]);
+
     // handle value update
     useEffect(() => {
       if (_providedValue.length) placeholderMap.value = withTiming(1); // focused;
@@ -459,7 +464,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
           >
             {placeholder}
           </Animated.Text>
-          <View>{placeholderIcon ? placeholderIcon : ""}</View>
+          <View>{renderPlaceholderIcon()}</View>
         </Animated.View>
         {characterCount && (
           <Text
