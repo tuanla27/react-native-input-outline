@@ -54,6 +54,12 @@ export interface InputOutlineProps extends TextInputProps {
    */
   placeholder?: string;
   /**
+   * Placeholder label for the textinput.
+   * @default null
+   * @type string
+   */
+   placeholderLabel?: string;
+  /**
    * Placeholder symbol for the textinput.
    * @default false
    * @type boolean
@@ -101,6 +107,12 @@ export interface InputOutlineProps extends TextInputProps {
    * @type string
    */
   inactiveColor?: string;
+  /**
+   * Color of placeholder.
+   * @default 'black'
+   * @type string
+   */
+   placeholderTextColor?: string;
   /**
    * Background color of the InputOutline.
    * @default 'white'
@@ -218,7 +230,9 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
 
       // features
       placeholder = 'Placeholder',
+      placeholderTextColor,
       isRequired = false,
+      placeholderLabel,
       trailingIcon,
 
       // others
@@ -418,6 +432,20 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
         left: paddingHorizontal,
         fontFamily: assistiveFontFamily,
       },
+      labelStyle:{
+        fontSize: 18,
+        color: '#737373',
+        paddingBottom: 10,
+        fontFamily: 'System',
+        position: 'relative',
+        ':after': {
+           content: '* ',
+           position: absolute,
+           left: 5,
+           top: 0,
+           color: '#bbb'
+        }
+    },
     });
 
     const placeholderStyle = useMemo(() => {
@@ -439,8 +467,10 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
               maxLength={characterCount ? characterCount : undefined}
               selectionColor={errorState() ? errorColor : activeColor}
               placeholder=""
+              placeholderTextColor={placeholderTextColor}
               value={value}
             />
+            <Text style={styles.labelStyle} >{placeholderLabel}</Text>
           </View>
         </TouchableWithoutFeedback>
         {trailingIcon && (
