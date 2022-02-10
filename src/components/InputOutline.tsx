@@ -54,6 +54,12 @@ export interface InputOutlineProps extends TextInputProps {
    */
   placeholder?: string;
   /**
+   * Placeholder symbol for the textinput.
+   * @default undefined
+   * @type React.FC
+   */
+   placeholderIcon?: React.FC;
+  /**
    * Font size for TextInput.
    * @default 14
    * @type number
@@ -212,6 +218,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
 
       // features
       placeholder = 'Placeholder',
+      placeholderIcon,
       trailingIcon,
 
       // others
@@ -450,7 +457,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
           <Animated.Text
             style={[styles.placeholderText, animatedPlaceholderTextStyles]}
           >
-            {placeholder}
+            {placeholder} {placeholderIcon ? placeholderIcon : ""}
           </Animated.Text>
         </Animated.View>
         {characterCount && (
