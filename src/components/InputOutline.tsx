@@ -55,10 +55,10 @@ export interface InputOutlineProps extends TextInputProps {
   placeholder?: string;
   /**
    * Placeholder symbol for the textinput.
-   * @default undefined
-   * @type React.FC
+   * @default false
+   * @type boolean
    */
-   placeholderIcon?: React.FC;
+   isRequired?: boolean;
   /**
    * Font size for TextInput.
    * @default 14
@@ -218,7 +218,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
 
       // features
       placeholder = 'Placeholder',
-      placeholderIcon,
+      isRequired = false,
       trailingIcon,
 
       // others
@@ -278,11 +278,6 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
       if (trailingIcon) return trailingIcon({});
       return null;
     }, [trailingIcon]);
-
-    const renderPlaceholderIcon = useCallback(() => {
-      if (placeholderIcon) return placeholderIcon({});
-      return null;
-    }, [placeholderIcon]);
 
     // handle value update
     useEffect(() => {
@@ -462,9 +457,8 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
           <Animated.Text
             style={[styles.placeholderText, animatedPlaceholderTextStyles]}
           >
-            {placeholder}
+            {placeholder} {isRequired ? <Text style={{color: 'red'}}>*</Text> : null}
           </Animated.Text>
-          <View>{renderPlaceholderIcon()}</View>
         </Animated.View>
         {characterCount && (
           <Text
