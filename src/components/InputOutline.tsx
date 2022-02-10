@@ -457,8 +457,9 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
           <Animated.Text
             style={[styles.placeholderText, animatedPlaceholderTextStyles]}
           >
-            {placeholder} {placeholderIcon ? placeholderIcon : ""}
+            {placeholder}
           </Animated.Text>
+          <View>{placeholderIcon ? placeholderIcon : ""}</View>
         </Animated.View>
         {characterCount && (
           <Text
