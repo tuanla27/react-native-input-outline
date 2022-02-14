@@ -54,17 +54,11 @@ export interface InputOutlineProps extends TextInputProps {
    */
   placeholder?: string;
   /**
-   * Placeholder label for the textinput.
-   * @default null
-   * @type string
-   */
-   placeholderLabel?: string;
-  /**
    * Placeholder symbol for the textinput.
    * @default false
    * @type boolean
    */
-   isRequired?: boolean;
+  isRequired?: boolean;
   /**
    * Font size for TextInput.
    * @default 14
@@ -112,7 +106,7 @@ export interface InputOutlineProps extends TextInputProps {
    * @default 'black'
    * @type string
    */
-   placeholderTextColor?: string;
+  placeholderTextColor?: string;
   /**
    * Background color of the InputOutline.
    * @default 'white'
@@ -232,7 +226,6 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
       placeholder = 'Placeholder',
       placeholderTextColor,
       isRequired = false,
-      placeholderLabel,
       trailingIcon,
 
       // others
@@ -333,7 +326,8 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
       color: interpolateColor(
         colorMap.value,
         [0, 1, 2],
-        [inactiveColor, activeColor, errorColor]
+        // [inactiveColor, activeColor, errorColor]
+        ['#7b8087', '#7b8087', '#7b8087']
       ),
     }));
 
@@ -350,11 +344,12 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
       borderColor:
         placeholderSize.value > 0
           ? interpolateColor(
-              colorMap.value,
-              [0, 1, 2],
-              [inactiveColor, activeColor, errorColor]
-            )
+            colorMap.value,
+            [0, 1, 2],
+            [inactiveColor, activeColor, errorColor]
+          )
           : inactiveColor,
+
     }));
 
     useImperativeHandle(ref, () => ({
@@ -406,10 +401,11 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
       errorText: {
         position: 'absolute',
         color: errorColor,
+        width: "100%",
         fontSize: errorFontSize,
         fontFamily: errorFontFamily,
         bottom: -errorFontSize - 7,
-        left: paddingHorizontal,
+        left: paddingHorizontal - 7,
       },
       trailingIcon: {
         position: 'absolute',
@@ -432,20 +428,6 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
         left: paddingHorizontal,
         fontFamily: assistiveFontFamily,
       },
-      labelStyle:{
-        fontSize: 18,
-        color: '#737373',
-        paddingBottom: 10,
-        fontFamily: 'System',
-        position: 'relative',
-        ':after': {
-           content: '* ',
-           position: absolute,
-           left: 5,
-           top: 0,
-           color: '#bbb'
-        }
-    },
     });
 
     const placeholderStyle = useMemo(() => {
@@ -453,24 +435,33 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
     }, [styles.placeholder, animatedPlaceholderStyles]);
 
     return (
-      <Animated.View style={[styles.container, animatedContainerStyle, style]}>
+      <Animated.View style={[styles.container, animatedContainerStyle, style, isFocused() ? {
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+      } : {}]}>
         <TouchableWithoutFeedback onPress={handleFocus}>
           <View style={styles.inputContainer}>
             <TextInput
               {...inputProps}
               ref={inputRef}
               style={styles.input}
-              pointerEvents={isFocused() ? 'auto' : 'none'}
+              // pointerEvents={isFocused() ? 'auto' : 'none'}
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChangeText={handleChangeText}
               maxLength={characterCount ? characterCount : undefined}
               selectionColor={errorState() ? errorColor : activeColor}
               placeholder=""
-              placeholderTextColor={placeholderTextColor}
+              placeholderTextColor={'red'}
               value={value}
             />
-            <Text style={styles.labelStyle} >{placeholderLabel}</Text>
           </View>
         </TouchableWithoutFeedback>
         {trailingIcon && (
@@ -487,7 +478,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
           <Animated.Text
             style={[styles.placeholderText, animatedPlaceholderTextStyles]}
           >
-            {placeholder} {isRequired ? <Text style={{color: 'red'}}>*</Text> : null}
+            {placeholder} {isRequired ? <Text style={{ color: 'red' }}>*</Text> : null}
           </Animated.Text>
         </Animated.View>
         {characterCount && (
