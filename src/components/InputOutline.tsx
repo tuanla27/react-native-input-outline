@@ -445,7 +445,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
         shadowRadius: 2.22,
 
         elevation: 3,
-      } : {}]}>
+      } : {}, errorState() ? {backgroundColor: '#FFF4F4'} : {}]}>
         <TouchableWithoutFeedback onPress={handleFocus}>
           <View style={styles.inputContainer}>
             <TextInput
