@@ -404,7 +404,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
         width: "100%",
         fontSize: errorFontSize,
         fontFamily: errorFontFamily,
-        bottom: -errorFontSize - 7,
+        // bottom: -errorFontSize - 7,
         left: paddingHorizontal - 7,
       },
       trailingIcon: {
@@ -459,7 +459,6 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
               maxLength={characterCount ? characterCount : undefined}
               selectionColor={errorState() ? errorColor : activeColor}
               placeholder=""
-              placeholderTextColor={'red'}
               value={value}
             />
           </View>
@@ -487,7 +486,9 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
           >{`${value.length} / ${characterCount}`}</Text>
         )}
         {errorState() ? (
-          <Text style={[styles.errorText]}>{error}</Text>
+          <Text style={[styles.errorText, {
+            bottom: error && error.length > 69 ? -30 : -errorFontSize - 7
+          }]}>{error}</Text>
         ) : (
           assistiveText && (
             <Text style={[styles.assistiveText]}>{assistiveText}</Text>
