@@ -384,7 +384,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
       },
       placeholder: {
         position: 'absolute',
-        top: paddingVertical,
+        top: Platform.OS === 'ios' ? paddingVertical : 14,
         left: paddingHorizontal,
       },
       placeholderText: {
