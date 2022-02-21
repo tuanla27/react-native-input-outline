@@ -487,7 +487,7 @@ const InputOutlineComponent = forwardRef<InputOutline, InputOutlineProps>(
         )}
         {errorState() ? (
           <Text style={[styles.errorText, {
-            bottom: error && error.length > 69 ? -30 : -errorFontSize - 7
+            bottom: error && error.length > 59 ? -30 : -errorFontSize - 7
           }]}>{error}</Text>
         ) : (
           assistiveText && (
